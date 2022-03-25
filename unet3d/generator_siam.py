@@ -5,9 +5,10 @@ import itertools
 
 import numpy as np
 
-from .utils import pickle_dump, pickle_load
-from .utils.patches import compute_patch_indices, get_random_nd_index, get_patch_from_3d_data
-from .augment import augment_data, random_permutation_x_y
+from unet3d.utils import pickle_dump, pickle_load
+from unet3d.utils.patches import compute_patch_indices, get_random_nd_index, get_patch_from_3d_data
+from unet3d.augment import augment_data, random_permutation_x_y
+
 
 
 def get_training_and_validation_generators(data_file0, data_file1, batch_size, n_labels, training_keys_file, validation_keys_file,

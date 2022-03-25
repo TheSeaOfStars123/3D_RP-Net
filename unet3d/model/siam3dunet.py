@@ -1,19 +1,15 @@
 from functools import partial
 
-from keras.layers import Input, LeakyReLU, Add, UpSampling3D, Activation, SpatialDropout3D, Conv3D, Reshape, Dense, Flatten, Dropout, Subtract, BatchNormalization, GlobalAveragePooling3D
+from keras.layers import Input, LeakyReLU, Add, UpSampling3D, Activation, SpatialDropout3D, Conv3D, Dense, Subtract, \
+    GlobalAveragePooling3D
 from keras.layers.core import Lambda
 from keras.engine import Model
 from keras.optimizers import Adam, SGD
 from keras.losses import binary_crossentropy
 from keras import backend as K
-from keras import regularizers
 
 from .unet import create_convolution_block, concatenate
-from ..metrics import weighted_dice_coefficient_loss
-
-from keras.utils.training_utils import multi_gpu_model
-
-import tensorflow as tf
+from unet3d.metrics import weighted_dice_coefficient_loss
 
 try:
     #from keras_contrib.layers.normalization import InstanceNormalization
@@ -278,7 +274,7 @@ def siam3dunet_model(input_shape=(4, 128, 128, 128), optimizer=Adam, initial_lea
     print (activation_name)
 
     model = Model(inputs=[inputs_1, inputs_2], outputs=[out_pred_score, out_pred_mask_1, out_pred_mask_2])
-
+    model.summary()
     #parallel_model = multi_gpu_model(model, gpus=2)
 
     model.compile(optimizer=SGD(lr=initial_learning_rate, momentum=0.9), loss={'score':'binary_crossentropy','mask1':loss_func,'mask2':loss_func}, loss_weights={'score': 1., 'mask1': 0.2, 'mask2': 0.2}, metrics=['accuracy'])

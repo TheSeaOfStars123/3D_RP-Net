@@ -8,9 +8,9 @@ from keras.models import load_model
 from unet3d.metrics import (dice_coefficient, dice_coefficient_loss, dice_coef, dice_coef_loss,
                             weighted_dice_coefficient_loss, weighted_dice_coefficient)
 from unet3d.model import sf_squeeze, sf_permute_dimensions, sf_expand_dims, sf_conv3d_base, sf_conv3d, loss_func, loss_
-from keras.layers import Input
+# from keras.layers import Input
 
-from keras.utils.training_utils import multi_gpu_model
+# from keras.utils.training_utils import multi_gpu_model
 
 K.set_image_dim_ordering('th')
 
@@ -82,7 +82,7 @@ def train_model(model, model_file, training_generator, validation_generator, ste
     :param n_epochs: Total number of epochs to train the model.
     :return: 
     """
-
+    print('starting training...')
     model.fit_generator(generator=training_generator,
                         steps_per_epoch=steps_per_epoch,
                         epochs=n_epochs, verbose=2,

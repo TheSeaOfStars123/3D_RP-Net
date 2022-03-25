@@ -1,17 +1,15 @@
 from functools import partial
 
-from keras.layers import Input, LeakyReLU, Add, UpSampling3D, Activation, SpatialDropout3D, Conv3D, Reshape, Dense, Flatten, Dropout, Subtract, BatchNormalization, GlobalAveragePooling3D
+from keras.layers import Input, LeakyReLU, Add, UpSampling3D, Activation, SpatialDropout3D, Dense, \
+    GlobalAveragePooling3D
 from keras.layers.core import Lambda
 from keras.engine import Model
 from keras.optimizers import Adam, SGD
 from keras.losses import binary_crossentropy
 from keras import backend as K
-from keras import regularizers
 
-from .unet import create_convolution_block, concatenate
-from ..metrics import weighted_dice_coefficient_loss
-
-import tensorflow as tf
+from .unet import create_convolution_block
+from unet3d.metrics import weighted_dice_coefficient_loss
 
 try:
     #from keras_contrib.layers.normalization import InstanceNormalization

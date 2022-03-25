@@ -2,7 +2,7 @@ import os
 import glob
 
 from unet3d.data import write_data_to_file, open_data_file
-from unet3d.generator import get_training_and_validation_generators
+from unet3d.generator_siam import get_training_and_validation_generators
 from unet3d.model import siam3dunet_model
 from unet3d.model import testnet_model
 from unet3d.training import load_old_model, train_model
@@ -103,26 +103,29 @@ def fetch_training_data_files(return_subject_ids=False):
 def main(overwrite=False):
 
     # convert input images into an hdf5 file
-    if overwrite or not (os.path.exists(config["data_file0"]) and os.path.exists(config["data_file1"])):
-
-        training_files, subject_ids = fetch_training_data_files(return_subject_ids=True)
-        training_files0, training_files1 = training_files
-        subject_ids0, subject_ids1 = subject_ids
-
-        if not os.path.exists(config["data_file0"]):
-            write_data_to_file(training_files0, config["data_file0"], image_shape=config["image_shape"], subject_ids=subject_ids0)
-        if not os.path.exists(config["data_file1"]):
-            write_data_to_file(training_files1, config["data_file1"], image_shape=config["image_shape"], subject_ids=subject_ids1)
-
-    data_file_opened0 = open_data_file(config["data_file0"])
-    data_file_opened1 = open_data_file(config["data_file1"])
+    # if overwrite or not (os.path.exists(config["data_file0"]) and os.path.exists(config["data_file1"])):
+    #
+    #     training_files, subject_ids = fetch_training_data_files(return_subject_ids=True)
+    #     training_files0, training_files1 = training_files
+    #     subject_ids0, subject_ids1 = subject_ids
+    #
+    #     if not os.path.exists(config["data_file0"]):
+    #         write_data_to_file(training_files0, config["data_file0"], image_shape=config["image_shape"], subject_ids=subject_ids0)
+    #     if not os.path.exists(config["data_file1"]):
+    #         write_data_to_file(training_files1, config["data_file1"], image_shape=config["image_shape"], subject_ids=subject_ids1)
+    #
+    # data_file_opened0 = open_data_file(config["data_file0"])
+    # data_file_opened1 = open_data_file(config["data_file1"])
 
 
     if not overwrite and os.path.exists(config["model_file"]):
         model = load_old_model(config["model_file"])
     else:
         # instantiate new model
-        model = siam3dunet_model(input_shape=config["input_shape"], n_labels=config["n_labels"], initial_learning_rate=config["initial_learning_rate"], n_base_filters=config["n_base_filters"])
+        model = siam3dunet_model(input_shape=config["input_shape"],
+                                 n_labels=config["n_labels"],
+                                 initial_learning_rate=config["initial_learning_rate"],
+                                 n_base_filters=config["n_base_filters"])
 
         #model = testnet_model(input_shape=config["input_shape"], n_labels=config["n_labels"], initial_learning_rate=config["initial_learning_rate"], n_base_filters=config["n_base_filters"])
 

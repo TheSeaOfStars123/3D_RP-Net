@@ -67,7 +67,7 @@ def unet_model_3d(input_shape, pool_size=(2, 2, 2), n_labels=1, initial_learning
     final_convolution = Conv3D(n_labels, (1, 1, 1))(current_layer)
     act = Activation(activation_name)(final_convolution)
     model = Model(inputs=inputs, outputs=act)
-
+    model.summary()
     if not isinstance(metrics, list):
         metrics = [metrics]
 

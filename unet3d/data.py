@@ -1,9 +1,11 @@
 import os
 
+import h5py
 import numpy as np
+os.environ['PATH'] += os.pathsep + os.path.expanduser('D:\ProgramData\Anaconda3\envs\mvpose\Lib\site-packages/tables')
 import tables
 
-from .normalize import normalize_data_storage, reslice_image_set
+from unet3d.normalize import normalize_data_storage, reslice_image_set
 
 
 def create_data_file(out_file, n_channels, n_samples, image_shape):
